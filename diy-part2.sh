@@ -16,3 +16,5 @@
 sed -i 's/ABI_VERSION:=4/ABI_VERSION:=2/g' package/libs/libjson-c/Makefile
 sed -i '/dropbear/,/For the basic set/{//!d;};' include/target.mk
 sed -i '/dropbear/a kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw wget libustream-openssl ca-certificates bind-dig curl luci' include/target.mk
+sed -i 's/START=95/START=15/g' package/base-files/files/etc/init.d/done
+
