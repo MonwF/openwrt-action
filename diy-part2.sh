@@ -13,8 +13,4 @@
 # Modify default IP
 #sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
 
-sed -i 's/ABI_VERSION:=4/ABI_VERSION:=2/g' package/libs/libjson-c/Makefile
-sed -i '/dropbear/,/For the basic set/{//!d;};' include/target.mk
-sed -i '/dropbear/a kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw wget libustream-openssl ca-certificates bind-dig curl luci' include/target.mk
 sed -i 's/START=95/START=15/g' package/base-files/files/etc/init.d/done
-sed -i 's/ip6tables -t mangle -w/\/bin\/true/g' feeds/packages/net/mwan3/files/lib/mwan3/mwan3.sh
