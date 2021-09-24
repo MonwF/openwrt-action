@@ -76,6 +76,12 @@ jobs:
       working-directory: /workdir
       run: cd openwrt && ./scripts/feeds install -a
 
+    - name: CCache
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        prefix: ${{ github.workspace }}/openwrt
+
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
