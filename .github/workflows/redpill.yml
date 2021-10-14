@@ -1,0 +1,69 @@
+name: Build redpill-loader for dsm7
+
+on:
+  workflow_dispatch:
+    inputs:
+      upload_release:
+        description: 'should upload release'
+        required: false
+        default: '0'
+  # schedule:
+  #   - cron: '25 23 * * 2,6'
+
+env:
+  REPO_URL: https://github.com/tossp/redpill-tool-chain
+  REPO_BRANCH: master
+  DSM_ARCH: apollolake
+  DSM_VERSION: 7.0.1-42218
+  DSM_SN: ${{secrets.dsm_sn}}
+  DSM_MAC: ${{secrets.dsm_mac}}
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Initialization
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo timedatectl set-timezone "$TZ"
+        git clone $REPO_URL -b $REPO_BRANCH redpill-toolchain
+
+    - name: Apply config
+      run: |
+        cd redpill-toolchain
+        sed -i "s/0x0e0f/0x0005/" sample_user_config.json
+        sed -i "s/0x46f4/0x0e0f/" sample_user_config.json
+        sed -i "s/1234XXX123/${{DSM_SN}}/" sample_user_config.json
+        sed -i "s/XXYYXXYYXXYY/${{DSM_MAC}}/" sample_user_config.json
+        cp sample_user_config.json ${{DSM_ARCH}}_user_config.json
+
+    - name: Build loader
+      id: compile
+      run: |
+        cd redpill-toolchain
+        ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/main/vmxnet3/rpext-index.json
+        ./redpill_tool_chain.sh build $DSM_ARCH-$DSM_VERSION
+        ./redpill_tool_chain.sh auto $DSM_ARCH-$DSM_VERSION
+
+    - name: Check space usage
+      if: (!cancelled())
+      run: df -hT
+
+    - name: Upload loader
+      uses: actions/upload-artifact@main
+      if: !cancelled()
+      with:
+        name: dsm-${{DSM_ARCH}}-${{DSM_VERSION}}
+        path: images/redpill-DS[39]*.img
+        if-no-files-found: error
+
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@main
+      with:
+        keep_minimum_runs: 5
