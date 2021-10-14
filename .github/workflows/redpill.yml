@@ -59,7 +59,7 @@ jobs:
       if: ${{ !cancelled() }}
       with:
         name: dsm-${{env.DSM_ARCH}}-${{env.DSM_VERSION}}
-        path: redpill-toolchain/images/dsm-${{env.DSM_ARCH}}-${{env.DSM_VERSION}}.zip
+        path: redpill-toolchain/dsm-${{env.DSM_ARCH}}-${{env.DSM_VERSION}}.zip
         if-no-files-found: error
 
     - name: Delete workflow runs
