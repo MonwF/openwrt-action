@@ -39,9 +39,9 @@ jobs:
         cd redpill-toolchain
         sed -i "s/0x0e0f/0x0005/" sample_user_config.json
         sed -i "s/0x46f4/0x0e0f/" sample_user_config.json
-        sed -i "s/1234XXX123/${{DSM_SN}}/" sample_user_config.json
-        sed -i "s/XXYYXXYYXXYY/${{DSM_MAC}}/" sample_user_config.json
-        cp sample_user_config.json ${{DSM_ARCH}}_user_config.json
+        sed -i "s/1234XXX123/${{env.DSM_SN}}/" sample_user_config.json
+        sed -i "s/XXYYXXYYXXYY/${{env.DSM_MAC}}/" sample_user_config.json
+        cp sample_user_config.json ${{env.DSM_ARCH}}_user_config.json
 
     - name: Build loader
       id: compile
@@ -59,7 +59,7 @@ jobs:
       uses: actions/upload-artifact@main
       if: !cancelled()
       with:
-        name: dsm-${{DSM_ARCH}}-${{DSM_VERSION}}
+        name: dsm-${{env.DSM_ARCH}}-${{env.DSM_VERSION}}
         path: images/redpill-DS[39]*.img
         if-no-files-found: error
 
