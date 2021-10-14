@@ -33,7 +33,7 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH redpill-toolchain
 
     - name: Apply config
-      id
+      id: patch
       env:
         DSM_SN: ${{secrets.dsm_sn}}
         DSM_MAC: ${{secrets.dsm_mac}}
