@@ -15,8 +15,6 @@ env:
   REPO_BRANCH: master
   DSM_ARCH: apollolake
   DSM_VERSION: 7.0.1-42218
-  DSM_SN: ${{secrets.dsm_sn}}
-  DSM_MAC: ${{secrets.dsm_mac}}
   TZ: Asia/Shanghai
 
 jobs:
@@ -35,6 +33,10 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH redpill-toolchain
 
     - name: Apply config
+      id
+      env:
+        DSM_SN: ${{secrets.dsm_sn}}
+        DSM_MAC: ${{secrets.dsm_mac}}
       run: |
         cd redpill-toolchain
         sed -i "s/0x0e0f/0x0005/" sample_user_config.json
