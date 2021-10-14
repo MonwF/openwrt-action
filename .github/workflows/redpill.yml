@@ -52,7 +52,7 @@ jobs:
         ./redpill_tool_chain.sh auto $DSM_ARCH-$DSM_VERSION
 
     - name: Check space usage
-      if: (!cancelled())
+      if: !cancelled()
       run: df -hT
 
     - name: Upload loader
