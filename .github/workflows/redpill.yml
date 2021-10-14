@@ -53,16 +53,12 @@ jobs:
         ./redpill_tool_chain.sh build $DSM_ARCH-$DSM_VERSION
         ./redpill_tool_chain.sh auto $DSM_ARCH-$DSM_VERSION
 
-    - name: Check space usage
-      if: ${{ !cancelled() }}
-      run: df -hT
-
     - name: Upload loader
       uses: actions/upload-artifact@main
       if: ${{ !cancelled() }}
       with:
         name: dsm-${{env.DSM_ARCH}}-${{env.DSM_VERSION}}
-        path: images/redpill-DS[39]*.img
+        path: redpill-toolchain/images/redpill-DS[39]*.img
         if-no-files-found: error
 
     - name: Delete workflow runs
