@@ -13,7 +13,7 @@ uci commit dropbear
 
 chmod 700 /etc/dropbear
 
-ln -sf /sbin/ip /usr/bin/ip
+ln -sf /usr/libexec/ip-full /usr/bin/ip
 
 sed -i '/option disabled/d' /etc/config/wireless
 sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
