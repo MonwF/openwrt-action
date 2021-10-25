@@ -18,18 +18,21 @@ ln -sf /usr/libexec/ip-full /usr/bin/ip
 sed -i '/option disabled/d' /etc/config/wireless
 sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
 #sed -i '/network\/wireless/,+3d' /usr/lib/lua/luci/controller/admin/network.lua
+sed -i 's/START=95/START=15/g' /etc/init.d/done
+sed -i 's#<%=luci.sys.exec("cat /etc/bench.log") or " "%>##' /usr/lib/lua/luci/view/admin_status/index.htm
 
-# [ "$(uci -q get network.lan.ipaddr)" = "192.168.2.1" ] && exit 0
-# uci set network.lan.ipaddr=192.168.2.1
-# uci commit network
+if [ -x "$(command -v mtkwifi)" ]; then
+  sed -i "/luci.model.network/a local wifi_infs = \"ra0 rai0\"" /usr/lib/lua/luci/view/cbi/network_ifacelist.htm
+  sed -i '/"id".*"_custom")/a ifattr(self.network == "lan", "checked", "checked") ..' /usr/lib/lua/luci/view/cbi/network_ifacelist.htm
+  sed -i 's#attr("value", " ")#ifattr(self.network == "lan", "value", wifi_infs)#' /usr/lib/lua/luci/view/cbi/network_ifacelist.htm
+  sed -i "s/_custom').checked=true\"/_custom').checked=true\" <%=ifattr(self.network == \"lan\", \"value\", wifi_infs)%>/" /usr/lib/lua/luci/view/cbi/network_ifacelist.htm
+fi
 
-
-
-
-
-
-
-
+lanIp=192.168.2.1
+if [ "$(uci -q get network.lan.ipaddr)" != "$lanIp" ]; then
+  uci set network.lan.ipaddr=$lanIp
+  uci commit network
+fi
 
 
 
