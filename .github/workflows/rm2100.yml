@@ -17,8 +17,8 @@ on:
         description: 'should upload release'
         required: false
         default: '0'
-  schedule:
-    - cron: '25 23 * * 2,6'
+#  schedule:
+#    - cron: '25 23 * * 2,6'
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
