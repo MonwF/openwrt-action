@@ -13,8 +13,8 @@ on:
 env:
   REPO_URL: https://github.com/tossp/redpill-tool-chain
   REPO_BRANCH: master
-  DSM_ARCH: apollolake
-  DSM_VERSION: 7.0.1-42218
+  DSM_ARCH: ds918p
+  DSM_VERSION: 7.1.0-42661
   TZ: Asia/Shanghai
 
 jobs:
