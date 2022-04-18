@@ -50,7 +50,6 @@ jobs:
       run: |
         cd redpill-toolchain
         ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/main/vmxnet3/rpext-index.json
-        ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/redpill-load/master/redpill-acpid/rpext-index.json
         ./redpill_tool_chain.sh build $DSM_ARCH-$DSM_VERSION
         ./redpill_tool_chain.sh auto $DSM_ARCH-$DSM_VERSION
         zip dsm-${{env.DSM_ARCH}}-${{env.DSM_VERSION}}.zip images/redpill-DS[39]*.img
